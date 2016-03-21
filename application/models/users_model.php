@@ -75,6 +75,12 @@ class users_model extends CI_Model{
         }
     }
     
+    function generate_referral_code(){
+        $this->load->helper('string');
+        $referralCode = uniqid(random_string('alnum', 5), true);
+        return $referralCode;
+    }
+            
     function generate_random_password($id){
         $this->load->helper('string');
         $password= random_string('alnum', 10);    // Send this password to user in mail
@@ -148,6 +154,8 @@ class users_model extends CI_Model{
     function add_user(){
        
         $api_key = md5(uniqid(rand(), true));
+        $referralCode = $this->generate_referral_code();
+        //console.log($referralCode);
         
         $data=array(
             'first_name'=>$this->input->post('first_name'),
@@ -160,7 +168,9 @@ class users_model extends CI_Model{
             'password'=>md5($this->input->post('password')),
             'api_key'=>$api_key,
             'status'=>'1',
-            'role'=>'2'
+            'role'=>'2',
+            'referral_code' => $referralCode,
+            'wallet_amount' => 0
         );
         
         if($this->check_email($this->input->post('email'))){

@@ -40,7 +40,6 @@ class Users extends CI_Controller {
            $this->load->model('users_model');   
            $result = $this->users_model->do_forget();
            echo json_encode($result);
-            
         }
         
         function login(){
@@ -56,7 +55,6 @@ class Users extends CI_Controller {
                 $data = $this->users_model->verify_login();
                 echo json_encode($data);
             }
-            
         }
         
         function register(){
